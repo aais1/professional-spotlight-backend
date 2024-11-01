@@ -8,7 +8,7 @@ import axios from "axios";
 const router = express.Router();
 router.use(cookieParser());
 
-router.get("/biography/heart", Biographyadmincontroller.ShowHeart);
+router.get("/biography/heart", BiographyController.ShowHeart);
 router.get("/biographiesandportfolios", BiographyController.GetBiographiesandPortfoliosforhome);
 router.get("/biographyandportfoliooftheday", BiographyController.GetBiographyandPortfoliooftheday);
 router.get("/allbiographies", BiographyController.GetAllBiographies);
