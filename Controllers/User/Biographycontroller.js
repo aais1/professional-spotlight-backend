@@ -11,6 +11,20 @@ import Subscribers from "../../Models/subscribers.js";
 const router = express.Router();
 router.use(cookieParser());
 
+
+const ShowHeart=async(req,res)=>{
+ 
+        try {
+            console.log('Fetching hearted biographies...'); // For debugging
+            const biographies = await Biography.find({ heart: true });
+            return res.status(200).json({ message: "Biographies fetched successfully", biographies });
+        } catch (error) {
+            console.error("Error fetching biographies:", error); // Log error for debugging
+            return res.status(500).json({ message: "An error occurred", error });
+        }
+
+}
+
 // get 5 biographies and 5 portfolios which are latest
 const GetBiographiesandPortfoliosforhome = async (req, res) => {
     try {
@@ -225,5 +239,5 @@ const SendEmail = async (req, res) => {
 };
 
 
-export default { GetBiographiesandPortfoliosforhome, GetBiographyandPortfoliooftheday, GetAllBiographies, GetAllPortfolios, GetPopularBiographies, GetBiographyBySlug, GetPortfolioBySlug, AddReview, Subscribe, GetTopPortfolios, Search, GetReviews, SendEmail };
+export default { GetBiographiesandPortfoliosforhome, GetBiographyandPortfoliooftheday, GetAllBiographies, GetAllPortfolios, GetPopularBiographies, GetBiographyBySlug, GetPortfolioBySlug, AddReview, Subscribe, GetTopPortfolios, Search, GetReviews, SendEmail ,ShowHeart };
 
