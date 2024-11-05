@@ -13,6 +13,10 @@ const router = express.Router();
 router.use(cookieParser());
 // Login function with JWT token in cookies
 
+router.delete("/portfolio/keyaspect/:keyaspectId", PortfolioController.deletekeyaspect);
+
+router.put("/portfolio/keyaspect", PortfolioController.editkeyaspect);
+
 router.get("/biography/heart", Biographyadmincontroller.GetHeartedBiographies);
 router.post("/biography/unlike", Biographyadmincontroller.UnlikeBiography);
 
@@ -73,9 +77,9 @@ router.put("/portfolio/project", PortfolioController.editproject);
 // edit portfolio
 router.put("/portfolio/:portfolioId", PortfolioController.editportfolio);
 // edit keyaspect
-router.put("/portfolio/keyaspect", PortfolioController.editkeyaspect);
+
 // delete keyaspect
-router.delete("/portfolio/keyaspect/:keyaspectId", PortfolioController.deletekeyaspect);
+
 // portfolio of the week
 router.put("/portfolio/portfoliooftheweek/:portfolioId", PortfolioController.portfoliooftheweek);
 // delete portfolio 

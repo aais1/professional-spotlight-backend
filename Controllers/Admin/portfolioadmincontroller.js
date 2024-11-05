@@ -141,27 +141,47 @@ const editproject = async (req, res) => {
 };
 
 const editkeyaspect = async (req, res) => {
+    console.log("edit");
+    console.log(req.body)
     try {
-        console.log(req.body);
-        const { keyaspectId, keyaspects, PortfolioId } = req.body;
+        const { portfolioId, keyaspects } = req.body;
 
-        // Update the Keyaspect document
-        const updatedKeyaspect = await Keyaspects.findByIdAndUpdate(
-            keyaspectId,
-            { keyaspect: keyaspects, PortfolioId },
-            { new: true }
-        );
-
-        if (!updatedKeyaspect) {
-            return res.status(404).json({ error: 'Keyaspect not found' });
+        // Validate required fields
+        if (!portfolioId || !keyaspects) {
+            return res.status(400).json({ error: "portfolioId and keyaspects are required." });
         }
 
-        res.status(200).json({ keyaspect: updatedKeyaspect });
+        console.log("Received body:", req.body);
+
+        // Ensure keyaspects array is correctly formatted
+        if (!Array.isArray(keyaspects) || keyaspects.length === 0) {
+            return res.status(400).json({ error: "keyaspects should be a non-empty array." });
+        }
+
+        // Iterate over keyaspects and update each one
+        const updatedKeyaspects = [];
+        for (const keyaspect of keyaspects) {
+            const { id, keyaspect: keyaspectValue } = keyaspect;
+            const updatedKeyaspect = await Keyaspects.findByIdAndUpdate(
+                id,
+                { keyaspect: keyaspectValue, PortfolioId: portfolioId },
+                { new: true }
+            );
+            if (!updatedKeyaspect) {
+                console.log("Keyaspect not found for ID:", id);
+                return res.status(404).json({ error: `Keyaspect not found for ID: ${id}` });
+            }
+            updatedKeyaspects.push(updatedKeyaspect);
+        }
+
+        console.log("Updated Keyaspects:", updatedKeyaspects);
+        res.status(200).json({ keyaspects: updatedKeyaspects });
     } catch (err) {
-        console.log(err);
+        console.error("Error in editkeyaspect controller:", err);
         res.status(500).json({ error: err.message });
     }
 };
+
 
 
 const updatelisted = async (req, res) => {
@@ -193,15 +213,33 @@ const updatelisted = async (req, res) => {
 };
 // delete keyaspect
 const deletekeyaspect = async (req, res) => {
+    console.log('delete')
     try {
         const { keyaspectId } = req.params;
+
+        // Check if keyaspectId is provided
+        if (!keyaspectId) {
+            return res.status(400).json({ error: "Keyaspect ID is required" });
+        }
+
+        console.log("Attempting to delete keyaspect with ID:", keyaspectId);
+
+        // Attempt to find and delete the keyaspect
         const keyaspect = await Keyaspects.findByIdAndDelete(keyaspectId);
-        res.status(200).json({ keyaspect });
+
+        // If keyaspect is not found, send a 404 response
+        if (!keyaspect) {
+            return res.status(404).json({ error: "Keyaspect not found" });
+        }
+
+        // Successfully deleted
+        res.status(200).json({ message: "Keyaspect deleted successfully", keyaspect });
+    } catch (err) {
+        console.error("Error in deletekeyaspect controller:", err);
+        res.status(500).json({ error: "Internal server error" });
     }
-    catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-}
+};
+
 // there can be only one portfolio of the week at a time when a new portfolio is set as portfolio of the week the previous portfolio of the week is set to false 
 const portfoliooftheweek = async (req, res) => {
     try {
