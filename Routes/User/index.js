@@ -8,6 +8,7 @@ import axios from "axios";
 const router = express.Router();
 router.use(cookieParser());
 
+router.get("/home/portfolioandbiographyoftheday", BiographyController.GetBiographyandPortfoliooftheday);
 router.get("/biography/heart", BiographyController.ShowHeart);
 router.get("/biographiesandportfolios", BiographyController.GetBiographiesandPortfoliosforhome);
 router.get("/biographyandportfoliooftheday", BiographyController.GetBiographyandPortfoliooftheday);
@@ -15,7 +16,7 @@ router.get("/allbiographies", BiographyController.GetAllBiographies);
 router.get("/allportfolios", BiographyController.GetAllPortfolios);
 router.get("/biography/:slug", BiographyController.GetBiographyBySlug);
 router.get("/portfolio/:slug", BiographyController.GetPortfolioBySlug);
-router.get("/home/portfolioandbiographyoftheday", BiographyController.GetBiographyandPortfoliooftheday);
+
 router.get("/home/biographiesandportfolios", BiographyController.GetBiographiesandPortfoliosforhome);
 router.post("/biography/review", BiographyController.AddReview);
 router.post("/biography/subscribe", BiographyController.Subscribe );

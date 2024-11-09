@@ -4,11 +4,11 @@ import Portfolio from "./portfolio.js";
 const projectSchema = new Schema({
      title: {
         type: String,
-        required: true,
+        
     },
     link: {
         type: String,
-        required: true,
+        
     },
     description: {
         type: String,
