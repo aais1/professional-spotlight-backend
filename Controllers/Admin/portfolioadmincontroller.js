@@ -115,12 +115,7 @@ const editproject = async (req, res) => {
         console.log(req.body);
         const { title, description, id, link } = req.body;
 
-        // Validate the required fields
-        if (!title || !description || !link) {
-            return res.status(400).json({ message: "Title, description, and link are required" });
-        }
 
-        console.log("id", id);
         // Find and update the project
         const project = await Project.findByIdAndUpdate(
             id,
