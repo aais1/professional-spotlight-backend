@@ -29,7 +29,7 @@ const ShowHeart=async(req,res)=>{
 const GetBiographiesandPortfoliosforhome = async (req, res) => {
     try {
         const biographies = await Biography.find({ listed: true }).sort({ createdAt: -1 }).limit(5);
-        const portfolios = await Portfolio.find({ listed: true }).sort({ createdAt: -1 }).limit(5);
+        const portfolios = await Portfolio.find({ listed: true }).limit(5);
         return res.status(200).json({ biographies, portfolios });
     } catch (error) {
         return res.status(500).json({ message: error.message });
