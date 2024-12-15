@@ -36,7 +36,7 @@ const GetAllBiographies = async (req, res) => {
   
       // Get the filtered biographies, paginated by `skip`
       const biographies = await Biography.find(filter)
-        .sort({ createdAt: -1 })  // Sort by most recent first
+        .sort({ date: -1 })  // Sort by most recent first
         .skip(startIndex)         // Skip previous pages' results
         .limit(limit);            // Limit to the number of biographies per page (6)
   
